@@ -53,25 +53,17 @@ MySQL 使用 `127.0.0.1:13308`，数据库 `knowforge_metrics`；Milvus 使用 `
 & $py scripts/init_project.py --username admin --display-name '平台管理员' --tenant-id default --dataset-id default --visibility public
 ```
 
-按提示输入两次自定密码（12–256 个字符，输入时不显示）。没有预置通用密码。账号表目前已初始化，仍需要这一步创建自己的登录账号。首次管理员属于 `default/default/public`，与下面入库范围一致。
-
 ### 5. 检查资料质量
 
 ```powershell
 & $py scripts/quality/check_ingestion_quality_gate.py --scenario metrics_dictionary --kb-version metrics_dictionary_offline_check --output reports/offline_quality.json
 ```
 
-输出 `"ok": true` 表示质量检查通过。它不等于已经入库或模型服务可用。
-
 ### 6. 构建并激活独立知识库
 
 ```powershell
 & $py scripts/rebuild_kb_version.py --scenario metrics_dictionary --new-version --quality-gate --activate --tenant-id default --dataset-id default --visibility public --description 'KnowForge Metrics initial knowledge base'
 ```
-
-成功输出应包含 `Rebuilt knowledge base version` 和 `activated=True`。知识库集合为 `knowforge_metrics_faq_v1`、`knowforge_metrics_doc_v1`。这一步只处理本项目资料和独立数据库。
-
-新增租户/数据集时，入库参数必须与账号范围一致。版本激活指针仍为场景级，规划多个租户的知识版本时需要在同一目标版本中完成各范围入库后统一激活；不要把单租户版本直接当作所有租户的完整版本。
 
 ### 7. 启动网站
 
@@ -87,10 +79,6 @@ MySQL 使用 `127.0.0.1:13308`，数据库 `knowforge_metrics`；Milvus 使用 `
 node --check static/app.js
 docker compose config --quiet
 ```
-
-测试覆盖密码/令牌、登录、CSRF、跨用户会话、跨租户账号管理、WebSocket 服务端身份绑定。SQLite 仅用于隔离单元测试，实际运行使用 MySQL。
-
-默认是本机单进程部署。对外服务需要 HTTPS，设置 `COOKIE_SECURE=true` 和准确的 `APP_ORIGINS`，并配置反向代理。当前内存限流与生成并发控制适用于单个 worker。不要把 `.env`、模型、运行日志或数据库凭据提交到版本库。
 
 ## 本次交付验证记录
 
