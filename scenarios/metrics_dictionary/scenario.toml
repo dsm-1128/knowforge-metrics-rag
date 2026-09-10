@@ -1,0 +1,25 @@
+scenario_id = "metrics_dictionary"
+display_name = "企业指标口径与数据字典知识平台"
+industry = "企业数据管理"
+description = "查询指标定义、计算口径、表字段释义、数据血缘和版本依据；回答可追溯到知识来源。"
+assistant_name = "指标与数据字典助手"
+business_domain = "企业指标口径、数据字典、口径版本和数据血缘知识库"
+support_contact = "数据管理团队或对应指标、数据表的责任部门"
+faq_collection = "knowforge_metrics_faq_v1"
+doc_collection = "knowforge_metrics_doc_v1"
+valid_sources = ["metrics", "dictionary", "versioning", "lineage"]
+sample_questions = ["GMV的计算口径是什么？", "支付转化率的分子和分母如何定义？", "dwd_trade_order表的pay_amount字段含义是什么？", "order_status枚举值有哪些？", "指标版本变更如何审批和生效？", "数据血缘如何定位上游表？"]
+resume_project_name = "企业指标口径与数据字典知识平台"
+resume_keywords = ["指标口径", "数据字典", "版本溯源", "表格检索", "数据血缘", "RAG"]
+
+[source_labels]
+metrics = "指标口径"
+dictionary = "数据字典"
+versioning = "版本与变更"
+lineage = "数据血缘"
+
+[source_patterns]
+metrics = "GMV|净支付金额|支付转化率|客单价|计算口径|统计口径|指标定义|分子|分母|统计粒度|去重规则"
+dictionary = "数据字典|字段|列名|表结构|数据类型|枚举|空值|主键|dwd_trade_order|dwd_user_visit|order_status|pay_amount|user_id"
+versioning = "指标版本|口径版本|版本变更|口径变更|生效|废止|旧版本|版本对比|口径冲突"
+lineage = "数据血缘|上游表|下游表|血缘关系|影响分析|数据来源|加工链路|依赖关系"

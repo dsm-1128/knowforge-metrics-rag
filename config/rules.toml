@@ -1,0 +1,150 @@
+# Cross-scenario routing rules.
+#
+# Source / industry glossary lives in scenarios/*/scenario.toml under
+# [source_patterns]. This file only stores routing rules shared by all scenarios.
+
+[faq_fast_path]
+max_chars = 48
+hints = [
+  "怎么办",
+  "如何",
+  "怎么",
+  "怎么处理",
+  "需要什么",
+  "需要哪些",
+  "需要谁",
+  "有哪些",
+  "为什么",
+  "什么时候",
+  "能不能",
+  "可以吗",
+  "会不会",
+  "是否",
+  "吗",
+  "什么",
+  "谁",
+]
+
+[query_variants]
+short_structured_max_chars = 24
+short_structured_markers = [
+  "怎么走",
+  "资料",
+  "材料",
+  "怎么排查",
+  "怎么处理",
+  "需要哪些",
+  "能不能",
+  "可以吗",
+  "是什么",
+  "要看什么",
+]
+
+[[query_variants.replacements]]
+when_any = ["安装", "失败", "报错"]
+replace = [
+  ["失败", "报错"],
+  ["报错", "失败"],
+]
+
+[[query_variants.replacements]]
+when_any = ["流程"]
+replace = [
+  ["流程", "SOP"],
+  ["流程", "处理步骤"],
+  ["流程", "办理流程"],
+]
+
+[[query_variants.replacements]]
+when_any = ["发票"]
+replace = [
+  ["发票", "开票"],
+  ["发票", "账单"],
+]
+
+[[query_variants.replacements]]
+when_any = ["开票"]
+replace = [
+  ["开票", "发票"],
+]
+
+[[query_variants.replacements]]
+when_any = ["告警"]
+replace = [
+  ["告警", "报警"],
+  ["告警", "异常"],
+]
+
+[[query_variants.replacements]]
+when_any = ["webhook"]
+ignore_case = true
+replace = [
+  ["webhook", "回调"],
+  ["webhook", "Webhook 回调"],
+]
+
+[[query_variants.replacements]]
+when_any = ["资料"]
+replace = [
+  ["资料", "材料"],
+  ["资料", "记录"],
+]
+
+[[query_variants.replacements]]
+when_any = ["材料"]
+replace = [
+  ["材料", "资料"],
+]
+
+[[query_variants.replacements]]
+when_all = ["流程", "怎么走"]
+replace = [
+  ["怎么走", "有哪些步骤"],
+  ["流程", "办理流程"],
+]
+
+[[query_variants.replacements]]
+when_any = ["怎么排查"]
+replace = [
+  ["怎么排查", "如何处理"],
+  ["怎么排查", "处理步骤"],
+]
+
+[[query_variants.replacements]]
+when_any = ["能不能"]
+replace = [
+  ["能不能", "是否可以"],
+]
+
+[[query_variants.replacements]]
+when_any = ["可以吗"]
+replace = [
+  ["可以吗", "是否可以"],
+]
+
+[intent_rule_scores]
+# Rule scores are not model probabilities. They rank deterministic intent
+# rules so overlapping FAQ/knowledge candidates can be resolved predictably.
+strong_faq = 0.82
+knowledge = 0.84
+source_question_shape = 0.85
+direct_faq_shape = 0.86
+
+[retrieval_strategy]
+# Shared thresholds consumed by qa_core.retrieval.strategy. These values are
+# business guardrails: they tune when FAQ can direct-answer and when retrieval
+# should collect more document evidence.
+faq_direct_floor = 0.62
+faq_direct_discount = 0.08
+short_query_guard_threshold = 0.78
+low_rule_score_threshold = 0.70
+medium_rule_score_threshold = 0.82
+medium_rule_score_direct_threshold = 0.82
+pricing_direct_threshold = 0.84
+compliance_direct_threshold = 0.86
+low_rule_score_direct_threshold = 0.86
+follow_up_faq_top_k_min = 24
+strong_faq_doc_top_k_min = 8
+knowledge_context_top_n_min = 5
+guard_context_top_n_min = 6
+table_context_top_n_min = 7

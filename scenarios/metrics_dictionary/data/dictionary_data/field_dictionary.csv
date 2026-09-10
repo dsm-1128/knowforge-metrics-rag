@@ -1,0 +1,12 @@
+表名,字段名,数据类型,业务含义,枚举或约束,允许为空,空值语义,关联或主键,责任部门,业务版本,生效区间,资料性质
+dwd_trade_order,order_id,BIGINT,订单唯一标识,正整数,否,空值为质量异常,主键；一行一个订单,交易数据组,v1,2026-01-01起,演示字典
+dwd_trade_order,user_id,BIGINT,下单登录用户标识,正整数,否,空值为质量异常,可关联dwd_user_visit.user_id但必须先按用户和日期去重,交易数据组,v1,2026-01-01起,演示字典
+dwd_trade_order,pay_amount,"DECIMAL(18,2)",实付金额人民币元；不含运费且已扣优惠,大于等于0；类型精度18标度2,否,空值为质量异常,订单粒度金额,交易数据组,v1,2026-01-01起,演示字典
+dwd_trade_order,refund_amount,"DECIMAL(18,2)",截至快照时点订单成功退款累计金额,大于等于0且不超过pay_amount；类型精度18标度2,否,无退款写0而非NULL,退款明细先按order_id聚合,交易数据组,v1,2026-01-01起,演示字典
+dwd_trade_order,pay_time,DATETIME,首次成功支付时间,Asia/Shanghai,是,未支付订单为空；支付成功订单为空则质量异常,GMV及支付指标时间归属字段,交易数据组,v1,2026-01-01起,演示字典
+dwd_trade_order,order_status,VARCHAR(16),订单当前业务状态,CREATED=待支付；PAID=支付成功；CANCELLED=未支付取消；REFUNDED=全额退款,否,空值或未知枚举为质量异常,部分退款仍为PAID；成功支付包含PAID和REFUNDED,交易数据组,v1,2026-01-01起,演示字典
+dwd_trade_order,is_test,TINYINT,是否测试订单,0=真实业务；1=测试,否,空值为质量异常,指标统一过滤is_test=0,交易数据组,v1,2026-01-01起,演示字典
+dwd_user_visit,event_id,VARCHAR(64),访问事件唯一标识,非空字符串,否,空值为质量异常,主键；一行一个访问事件,用户增长组,v1,2026-01-01起,演示字典
+dwd_user_visit,user_id,BIGINT,访问时登录用户标识,正整数,是,匿名访问为空且不进入登录访问用户分母,与订单按user_id和相同自然日匹配,用户增长组,v1,2026-01-01起,演示字典
+dwd_user_visit,event_time,DATETIME,访问发生时间,Asia/Shanghai,否,空值为质量异常,访问用户日归属字段,用户增长组,v1,2026-01-01起,演示字典
+dwd_user_visit,is_test,TINYINT,是否测试用户访问,0=真实业务；1=测试,否,空值为质量异常,指标统一过滤is_test=0,用户增长组,v1,2026-01-01起,演示字典

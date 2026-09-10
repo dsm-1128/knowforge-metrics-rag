@@ -1,0 +1,9 @@
+source,question,answer
+metrics,GMV的计算口径是什么？,GMV按Asia/Shanghai支付自然日[当日00:00至次日00:00)汇总非测试成功支付订单的pay_amount；按order_id去重；成功支付包含PAID和REFUNDED；人民币元且不含运费已扣优惠；不扣退款。演示口径v1自2026-01-01起；依据metric_catalog.csv的M001；责任部门为交易数据组。
+metrics,支付转化率的分子和分母如何定义？,演示口径v1自2026-01-01起：分母为当日登录访问的非测试去重用户数；分子为该访问人群中当日成功支付的去重用户数；均按user_id去重且使用Asia/Shanghai同一自然日。分母为0返回NULL而非0%。依据metric_catalog.csv的M003；责任部门为用户增长组。
+metrics,净支付金额与GMV有什么区别？,净支付金额按订单支付日归属并扣除截至该日次日08:00的成功退款累计金额；GMV不扣退款。两者都需要按order_id去重并排除测试订单；不能与按退款发生日统计的退款金额直接相减。演示口径v1自2026-01-01起；依据metric_catalog.csv的M001和M002。
+dictionary,dwd_trade_order表的pay_amount字段含义是什么？,"演示字典v1自2026-01-01起：pay_amount为DECIMAL(18,2)即精度18标度2的人民币元实付金额；不含运费且已扣优惠；非空且大于等于0；空值属于质量异常。表粒度为一行一个订单且order_id为主键。依据field_dictionary.csv；责任部门为交易数据组。"
+dictionary,order_status枚举值有哪些？,dwd_trade_order.order_status中CREATED为待支付；PAID为支付成功；CANCELLED为未支付取消；REFUNDED为全额退款。部分退款仍为PAID；成功支付统计包含PAID与REFUNDED。字段为必填；空值属于质量异常。演示字典v1自2026-01-01起；依据field_dictionary.csv。
+versioning,指标版本变更如何审批和生效？,演示制度v1：指标负责人提交定义差异与生效时间；数据开发核对影响；业务负责人和数据管理团队审核后发布业务版本并保留旧版本。业务审批在线下或企业既有流程完成；本平台仅维护知识库资料版本。依据version_policy.md。
+versioning,知识库版本就是指标口径版本吗？,不是。演示制度v1中kb_version标识知识库索引构建版本；业务口径版本标识指标定义及生效区间。应按业务日期和适用范围选择口径；不能按入库时间判断业务口径。当前演示只提供2026-01-01起的v1。依据version_policy.md。
+lineage,数据血缘如何定位上游表？,演示血缘v1自2026-01-01起：按指标编码查询lineage_catalog.csv的来源表与字段再查field_dictionary.csv。GMV依赖dwd_trade_order；支付转化率还依赖dwd_user_visit。平台只解释登记血缘；未登记的依赖需要数据开发确认。

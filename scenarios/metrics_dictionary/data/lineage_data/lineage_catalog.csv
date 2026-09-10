@@ -1,0 +1,5 @@
+指标编码,指标名称,来源表,来源字段,加工规则,关联约束,下游用途,责任部门,业务版本,生效区间,资料性质
+M001,GMV,dwd_trade_order,pay_amount；pay_time；order_id；order_status；is_test,过滤成功支付非测试订单后按支付日汇总实付金额,订单order_id唯一,全站日交易看板,交易数据组,v1,2026-01-01起,演示血缘
+M002,净支付金额,dwd_trade_order,pay_amount；refund_amount；pay_time；order_id；order_status；is_test,按支付日汇总实付减截至次日08:00累计退款,退款先预聚合至order_id粒度,全站日交易看板,交易数据组,v1,2026-01-01起,演示血缘
+M003,支付转化率,dwd_user_visit与dwd_trade_order,user_id；event_time；pay_time；order_status；is_test,当日登录访问与成功支付用户交集人数除以访问人数,两侧先按user_id与自然日去重再求交集,用户增长日看板,用户增长组,v1,2026-01-01起,演示血缘
+M004,支付客单价,dwd_trade_order,pay_amount；pay_time；user_id；order_id；order_status；is_test,GMV除以支付去重用户数,金额按order_id去重且人数按user_id去重,全站日交易看板,交易数据组,v1,2026-01-01起,演示血缘

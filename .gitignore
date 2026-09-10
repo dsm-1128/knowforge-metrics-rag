@@ -1,0 +1,63 @@
+# 本地配置与密钥：只允许上传两个配置模板
+.env
+.env.*
+!.env.example
+!.env.local.example
+*.pem
+*.key
+secrets/
+credentials/
+
+# 模型权重
+models/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.gguf
+
+# Python 环境与缓存
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.cache/
+
+# 日志、报告与本地数据库
+logs/
+reports/
+*.log
+*.db
+*.sqlite
+*.sqlite3
+*.sql.gz
+*.dump
+
+# 本地基础服务数据与备份
+volumes/
+backups/
+
+# 编辑器与系统文件
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+# Additional local secrets, archives and model artifacts
+*.p12
+*.pfx
+*.jks
+.envrc
+.env.*.bak
+*.bak
+*.zip
+*.7z
+*.tar
+*.tar.gz
+*.h5
+*.hdf5
+*.joblib
+*.pkl
+node_modules/
