@@ -79,10 +79,7 @@ MySQL 使用 `127.0.0.1:13308`，数据库 `knowforge_metrics`；Milvus 使用 `
 & $py -m uvicorn app:app --host 127.0.0.1 --port 8001 --ws-max-size 20000
 ```
 
-浏览器打开 **http://127.0.0.1:8001**，使用第 4 步创建的账号。也可运行 `./start.ps1 -Python $py`。关闭窗口或按 Ctrl+C 停止网站；`docker compose stop` 停止基础服务但保留数据。
-
-工作台的问答状态需要等待模型加载完成。若提示未就绪，检查 `.env` 中 API Key、模型路径、基础服务与已激活知识库。登录页面可启动不代表 RAG 已就绪，不会返回模拟模型答案。
-
+浏览器打开 **http://127.0.0.1:8001**。
 ## 验证与部署边界
 
 ```powershell
